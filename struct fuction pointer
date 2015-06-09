@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+typedef struct Ball CBall;
+struct Ball {
+    char *color;
+    double radius;
+    double (*volumn)(CBall*); // 函式指標
+};
+
+// 計算實例體積
+double volumn(CBall *this) {
+    double r = this->radius; // 模擬 this 指標 的行為
+    return r * r * 3.14;
+}
+
+void initBall(CBall *ball, char *color, double radius) {
+    ball->volumn = volumn; // 連結函式
+    ball->color = color;
+    ball->radius = radius;
+}
+
+int main(void) {
+    CBall ball;
+    initBall(&ball, "red", 5.0);
+    
+    printf("ball 實例的體積: %.2f \n", ball.volumn(&ball));
+        
+    return 0;
+}
